@@ -5,48 +5,30 @@
  | . ` ||  _| | |      `--. \/ __/ _` | '_ \| '_ \ / _ \ '__|
  | |\  || |   | \__/\ /\__/ / (_| (_| | | | | | | |  __/ |   
  \_| \_/\_|    \____/ \____/ \___\__,_|_| |_|_| |_|\___|_|   
- 
- */
-/* Turn an LED on/off based on a command send via BlueTooth
- **
- ** Credit: The following example was used as a reference
- ** Rui Santos: http://randomnerdtutorials.wordpress.com
- */
-/*
- * Write personal data of a MIFARE RFID card using a RFID-RC522 reader
- * Uses MFRC522 - Library to use ARDUINO RFID MODULE KIT 13.56 MHZ WITH TAGS SPI W AND R BY COOQROBOT. 
- ----------------------------------------------------------------------------- 
- * Pin layout should be as follows:
- * Signal     Pin              Pin               Pin
- *            Arduino Uno      Arduino Mega      MFRC522 board
- * ------------------------------------------------------------
- * Reset      9                5                 RST
- * SPI SS     10               53                SDA
- * SPI MOSI   11               52                MOSI
- * SPI MISO   12               51                MISO
- * SPI SCK    13               50                SCK
+
+ * ----------------------------------------------------------------------------
+ * This is a MFRC522 library example; see https://github.com/miguelbalboa/rfid
+ * for further details and other examples.
+ * Turn an LED on/off based on a command send via BlueTooth
  *
+ * Write personal data of a MIFARE RFID card using a RFID-RC522 reader
+ * BEWARE: Data will be written to the PICC, in sector #1 (blocks #4 to #7).
+ * Uses MFRC522 - Library to use ARDUINO RFID MODULE KIT 13.56 MHZ WITH TAGS SPI W AND R BY COOQROBOT. 
+ * 
+ * Credit: The following example was used as a reference
+ * Rui Santos: http://http://randomnerdtutorials.com/
+ * NOTE: The library file MFRC522.h has a lot of useful info. Please read it.
+ * 
+ * Released into the public domain.
+ * ----------------------------------------------------------------------------
  * Hardware required:
  * Arduino
  * PCD (Proximity Coupling Device): NXP MFRC522 Contactless Reader IC
  * PICC (Proximity Integrated Circuit Card): A card or tag using the ISO 14443A interface, eg Mifare or NTAG203.
  * The reader can be found on eBay for around 5 dollars. Search for "mf-rc522" on ebay.com. 
- */
-/**
- * ----------------------------------------------------------------------------
- * This is a MFRC522 library example; see https://github.com/miguelbalboa/rfid
- * for further details and other examples.
- * 
- * NOTE: The library file MFRC522.h has a lot of useful info. Please read it.
- * 
- * Released into the public domain.
- * ----------------------------------------------------------------------------
  * This sample shows how to read and write data blocks on a MIFARE Classic PICC
  * (= card/tag).
- * 
- * BEWARE: Data will be written to the PICC, in sector #1 (blocks #4 to #7).
- * 
- * 
+ *
  * Typical pin layout used:
  * ------------------------------------------------------------
  *             MFRC522      Arduino       Arduino   Arduino
@@ -132,7 +114,7 @@ void loop() {
   }
 
   if(state == '1'){
-    //    writeNFC (blockAddr, buffer, len, status);
+    writeNFC (blockAddr, buffer, len, status);
     // voided due to no input from bluetooth, also causes hang
     digitalWrite(ledPin, HIGH);
     Serial.println("WRITE MODE ENABLED");
@@ -146,8 +128,6 @@ void loop() {
   mfrc522.PICC_HaltA();
   // Stop encryption on PCD
   mfrc522.PCD_StopCrypto1();
-
-  delay(500);
 }
 
 /**
@@ -189,7 +169,7 @@ void writeNFC(byte blockAddr, byte *buffer, byte len, byte status){
   Serial.setTimeout(20000L) ;
 
   // Request Item Label
-  //  Serial.println("Type First name, ending with #");
+  Serial.println("Type First name, ending with #");
   len=Serial.readBytesUntil('#', (char *) buffer, 20) ; // read item from serial
   for (byte i = len; i < 20; i++) buffer[i] = '\s';     // pad with spaces
 
