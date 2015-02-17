@@ -169,7 +169,7 @@ void writeNFC(byte blockAddr, byte *buffer, byte len, byte status){
   Serial.setTimeout(20000L) ;
 
   // Request Item Label
-  Serial.println("Type First name, ending with #");
+  Serial.println("Type Item Label, ending with #");
   len=Serial.readBytesUntil('#', (char *) buffer, 20) ; // read item from serial
   for (byte i = len; i < 20; i++) buffer[i] = '\s';     // pad with spaces
 
