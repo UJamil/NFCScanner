@@ -125,13 +125,13 @@ void loop() {
   // Authenticate using key A
   Serial.println("Authenticating using key A...");
   status = mfrc522.PCD_Authenticate(MFRC522::PICC_CMD_MF_AUTH_KEY_A, trailerBlock, &key, &(mfrc522.uid));
-  if (status != MFRC522::STATUS_OK) {
+  if (status != MFRC522::STATUS_OK) { // Throw error if not authenticated
     Serial.print("PCD_Authenticate() failed: ");
     Serial.println(mfrc522.GetStatusCodeName(status));
     return;
   }
 
-  if(state == "1"){
+  if(state == '1'){
     //    writeNFC (blockAddr, buffer, len, status);
     // voided due to no input from bluetooth, also causes hang
     digitalWrite(ledPin, HIGH);
@@ -140,7 +140,7 @@ void loop() {
   else{  
     readNFC (blockAddr, buffer, size, status);
     digitalWrite(ledPin, LOW);
-    Serial.println("WRITE MODE DISABLED");
+    Serial.println("READ MODE ONLY");
   }
   // Halt PICC
   mfrc522.PICC_HaltA();
@@ -179,12 +179,6 @@ void readNFC(byte blockAddr, byte *buffer, byte size, byte status){
   dump_byte_array(buffer, 16); 
   Serial.println();
   Serial.println();
-
-  // Show the whole sector as it currently is
-  Serial.println("Current data in sector:");
-  mfrc522.PICC_DumpMifareClassicSectorToSerial(&(mfrc522.uid), &key, sector);
-  Serial.println();
-  Serial.write((char *) buffer);
 }
 
 /**
