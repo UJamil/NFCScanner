@@ -1,3 +1,4 @@
+<img src="https://github.com/UJamil/NFCScanner/blob/master/NFC%20Scanner%20Proto%201%20cropped.jpg">
 <h1>NFCScanner</h1>
 <p>NFC Bluetooth Inventory System</p>
 <p>Developed by <a href="https://github.com/UJamil">Usman Jamil (@UJamil)</a> and Andy Chronister at <a href="http://www.lwsd.org/school/stem/Pages/default.aspx">Tesla STEM High School</a></p>
